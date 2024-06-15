@@ -1,5 +1,3 @@
-const ESLINT_ERROR_TYPE /* "error" | "warn" */ = "error";
-
 module.exports = {
   env: {
     browser: true,
@@ -11,7 +9,6 @@ module.exports = {
     "plugin:react/recommended",
     "standard-with-typescript",
     "plugin:react/jsx-runtime",
-    "plugin:cypress/recommended",
   ],
   // "parser": "@typescript-eslint/parser",
   parserOptions: {
@@ -38,13 +35,13 @@ module.exports = {
   },
   rules: {
     indent: "off",
-    "@typescript-eslint/indent": [ESLINT_ERROR_TYPE, 2],
+    "@typescript-eslint/indent": ["error", 2],
     quotes: "off",
-    "@typescript-eslint/comma-dangle": [ESLINT_ERROR_TYPE, "always-multiline"],
-    "comma-dangle": [ESLINT_ERROR_TYPE, "always-multiline"],
-    "@typescript-eslint/quotes": [ESLINT_ERROR_TYPE, "double", { avoidEscape: true }],
+    "@typescript-eslint/comma-dangle": ["error", "always-multiline"],
+    "comma-dangle": ["error", "always-multiline"],
+    "@typescript-eslint/quotes": ["error", "double", { avoidEscape: true }],
     "member-delimiter-style": "off",
-    "@typescript-eslint/member-delimiter-style": [ESLINT_ERROR_TYPE, {
+    "@typescript-eslint/member-delimiter-style": ["error", {
       multiline: {
         delimiter: "semi",
         requireLast: true,
@@ -62,20 +59,20 @@ module.exports = {
         },
       },
     }],
-    "react/jsx-curly-spacing": [ESLINT_ERROR_TYPE, {
+    "react/jsx-curly-spacing": ["error", {
       when: "never",
       attributes: { allowMultiline: true },
       children: true,
     }],
-    semi: "off",
+    semi: "error",
     "@typescript-eslint/no-invalid-void-type": ["off"],
-    "@typescript-eslint/semi": [ESLINT_ERROR_TYPE, "always"],
+    "@typescript-eslint/semi": ["error", "always"],
     "explicit-function-return": "off",
     "@typescript-eslint/explicit-function-return": "off",
     "@typescript-eslint/no-floating-promises": "off",
     "@typescript-eslint/strict-boolean-expressions": "off",
     "@typescript-eslint/no-non-null-assertion": ["warn"],
-    "unused-imports/no-unused-imports": ESLINT_ERROR_TYPE,
+    "unused-imports/no-unused-imports": "error",
     "react/react-in-jsx-scope": "off",
     "react/jsx-filename-extension": [1, { extensions: [".ts", ".tsx"] }],
     "no-unused-vars": "off",
@@ -83,18 +80,18 @@ module.exports = {
     "@typescript-eslint/no-unused-vars": ["warn", { varsIgnorePattern: "^_", argsIgnorePattern: "^_" }],
     "@typescript-eslint/promise-function-async": "off",
     "@typescript-eslint/ban-ts-comment": ["warn", { "ts-expect-error": "allow-with-description" }],
-    "react/jsx-no-constructed-context-values": ESLINT_ERROR_TYPE,
-    "react/jsx-closing-bracket-location": ESLINT_ERROR_TYPE,
-    "react/jsx-closing-tag-location": ESLINT_ERROR_TYPE,
-    "react/jsx-curly-brace-presence": [ESLINT_ERROR_TYPE, { propElementValues: "always", props: "never", children: "never" }],
-    "react/jsx-curly-newline": [ESLINT_ERROR_TYPE, "consistent"],
-    "react/jsx-equals-spacing": ESLINT_ERROR_TYPE,
-    "react/jsx-first-prop-new-line": ESLINT_ERROR_TYPE,
+    "react/jsx-no-constructed-context-values": "error",
+    "react/jsx-closing-bracket-location": "error",
+    "react/jsx-closing-tag-location": "error",
+    "react/jsx-curly-brace-presence": ["error", { propElementValues: "always", props: "never", children: "never" }],
+    "react/jsx-curly-newline": ["error", "consistent"],
+    "react/jsx-equals-spacing": "error",
+    "react/jsx-first-prop-new-line": "error",
     "n/no-callback-literal": "off",
-    "no-shadow": ESLINT_ERROR_TYPE,
-    // "eslint multiline-comment-style": [ESLINT_ERROR_TYPE, "starred-block"],
+    "no-shadow": "error",
+    // "eslint multiline-comment-style": ["error", "starred-block"],
     "no-restricted-imports": [ // imports must be absolute path
-      ESLINT_ERROR_TYPE,
+      "error",
       {
         patterns: [
           {
@@ -113,14 +110,14 @@ module.exports = {
       ignoreStrings: true, // Optionally, ignore string literals
       ignoreTemplateLiterals: true, // Optionally, ignore template literals
     }],
-    "react/self-closing-comp": [ESLINT_ERROR_TYPE, {
+    "react/self-closing-comp": ["error", {
       component: true,
       html: false,
     }],
-    "@typescript-eslint/explicit-function-return-type": ESLINT_ERROR_TYPE,
-    "simple-import-sort/imports": ESLINT_ERROR_TYPE,
+    "@typescript-eslint/explicit-function-return-type": "error",
+    "simple-import-sort/imports": "error",
     "no-restricted-syntax": [
-      ESLINT_ERROR_TYPE,
+      "error",
       {
         selector: "TSEnumDeclaration",
         message: "No Enums are allowed. Use `const myEnum = { ... } as const` instead",
@@ -128,11 +125,11 @@ module.exports = {
     ],
 
   },
-  ignorePatterns: ["./cypress/**", "cypress*"],
+  ignores: [
+    "./src/components/ui/**" // Ignore external library components
+  ],
   overrides: [
     {
-      //     // enable the rule specifically for TypeScript files
-
       files: ["*.ts", "*.mts", "*.cts", "*.tsx"],
       rules: {
       },
