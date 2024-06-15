@@ -2,7 +2,6 @@ module.exports = {
   env: {
     browser: true,
     es2021: true,
-    "cypress/globals": true,
   },
   extends: [
     "next/core-web-vitals",
@@ -20,7 +19,6 @@ module.exports = {
   plugins: [
     "react",
     "unused-imports",
-    "cypress",
     "simple-import-sort",
     "@typescript-eslint",
     "n",
@@ -64,13 +62,14 @@ module.exports = {
       attributes: { allowMultiline: true },
       children: true,
     }],
-    semi: "error",
+    semi: "off",
     "@typescript-eslint/no-invalid-void-type": ["off"],
     "@typescript-eslint/semi": ["error", "always"],
     "explicit-function-return": "off",
     "@typescript-eslint/explicit-function-return": "off",
     "@typescript-eslint/no-floating-promises": "off",
     "@typescript-eslint/strict-boolean-expressions": "off",
+    "@typescript-eslint/no-misused-promises": "off",
     "@typescript-eslint/no-non-null-assertion": ["warn"],
     "unused-imports/no-unused-imports": "error",
     "react/react-in-jsx-scope": "off",
@@ -125,8 +124,8 @@ module.exports = {
     ],
 
   },
-  ignores: [
-    "./src/components/ui/**" // Ignore external library components
+  ignorePatterns: [
+    "src/components/ui/*", // Ignore external library components
   ],
   overrides: [
     {

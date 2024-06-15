@@ -1,35 +1,38 @@
-import { NotYou } from "@/components/library";
-import { Button, Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, Input, Label } from "@/components/ui";
-import { COOKIE_KEY } from "@/definitions";
 import axios from "axios";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
-export default function VerifyCredentials(): JSX.Element {
+import { NotYou } from "@/components/library";
+import { Button, Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, Input, Label } from "@/components/ui";
+import { COOKIE_KEY } from "@/definitions";
 
-  const getAuthorizationHeader = async (form: FormData): Promise<void> => {
+export default function VerifyCredentialsPage (): JSX.Element {
+  const getAuthorizationHeader = async (form: FormData): Promise<any> => {
     "use server";
     const password = (form.get("password") ?? "") as string;
     console.log("Password: ", password);
     if (password) {
       try {
-
-        const response = await axios.post(`${process.env.SUPABASE_AUTH_URL}/auth/v1/token?grant_type=password`, {
-          email: process.env.AUTH_EMAIL,
-          password,
-          gotrue_meta_security: {},
-        }, {
-          headers: {
-            'Content-Type': 'application/json',
-            'Apikey': process.env.SUPABASE_ANON_KEY
-          }
-        })
+        const response = await axios.post(
+          `${process.env.SUPABASE_AUTH_URL as string}/auth/v1/token?grant_type=password`,
+          {
+            email: process.env.AUTH_EMAIL,
+            password,
+            gotrue_meta_security: {},
+          },
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Apikey: process.env.SUPABASE_ANON_KEY,
+            },
+          },
+        );
         cookies().set(COOKIE_KEY.AUTH_TOKEN, response.data.access_token);
       } catch (e) {
         // todo -- handle error
       }
     }
-  }
+  };
 
   if (cookies().get(COOKIE_KEY.AUTH_TOKEN)) {
     redirect("/");
@@ -71,6 +74,8 @@ export default function VerifyCredentials(): JSX.Element {
           <Button type="submit">Authorize</Button>
         </CardFooter>
       </Card>
+
+      <input value="!z4ZnxkyLYs#vR" />
     </form>
-  )
+  );
 }

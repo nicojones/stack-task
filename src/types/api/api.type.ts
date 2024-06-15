@@ -1,4 +1,4 @@
-import { HeadersDefaults, AxiosInstance } from "axios";
+import { AxiosInstance, HeadersDefaults } from "axios";
 
 export interface IApiOptions {
   token?: string;

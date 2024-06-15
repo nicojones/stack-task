@@ -1,5 +1,6 @@
-import { AxiosFactory } from "@/types";
 import { UseQueryOptions } from "react-query";
+
+import { AxiosFactory } from "@/types";
 
 type MyReturnType = any;
 
