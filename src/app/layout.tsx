@@ -3,6 +3,7 @@ import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 
+import { EndSession } from "@/components/library";
 import { Toaster } from "@/components/ui";
 import { AuthWrapper, QueryWrapper } from "@/context";
 
@@ -27,6 +28,8 @@ export default function RootLayout ({
           </AuthWrapper>
         </QueryWrapper>
         <Toaster expand={false} />
+
+        <EndSession />
       </body>
     </html>
   );

@@ -89,4 +89,11 @@
       @apply as-link text-blue-500;
     }
 
+    .is-loading-mask {
+      @apply opacity-50 select-none pointer-events-none;
+    }
+    .has-loading-mask {
+      @apply transition-opacity duration-300
+    }
+
   }

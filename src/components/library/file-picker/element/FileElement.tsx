@@ -1,5 +1,4 @@
 
-import { ClockIcon } from "@radix-ui/react-icons";
 import moment from "moment";
 import Image from "next/image";
 import { useId, useState } from "react";
@@ -7,12 +6,12 @@ import { toast } from "sonner";
 
 import { iconFile, iconFolder, iconFolderOpen } from "@/assets";
 import { Button, Checkbox } from "@/components/ui";
-import { useSelectedFilesContext } from "@/context";
+import { useFilesContext } from "@/context";
 import { useResizableContext } from "@/context/resizable/resizable.context";
 import { DATE_FORMATS } from "@/definitions/date-formats";
 import { childResourceIndent, resourceFileName } from "@/functions";
 import { cn } from "@/lib/utils";
-import { IConnectionResourceElement, IFilePickerSharedProps, PDefault } from "@/types";
+import { IConnectionResourceElement, IFilePickerIndexActions, IFilePickerSharedProps, PDefault } from "@/types";
 
 import { FileElementResources } from "./FileElementResources";
 
@@ -21,16 +20,21 @@ interface FileElementProps extends IFilePickerSharedProps {
    * The data pertaining to this resource
    */
   resource: IConnectionResourceElement;
+
+  /**
+   * The component that does the actions
+   */
+  actions?: (fileActions: IFilePickerIndexActions) => JSX.Element;
 }
 
-export const FileElement = ({ path = [], resource, level }: FileElementProps): JSX.Element => {
+export const FileElement = ({ path = [], resource, level, actions }: FileElementProps): JSX.Element => {
   const { layout } = useResizableContext();
   const {
     isSelected,
     isChecked,
     selectResource,
     unselectResource,
-  } = useSelectedFilesContext(path);
+  } = useFilesContext(path);
   const [openFolder, setOpenFolder] = useState<boolean>(false);
   const toastId = useId();
   const resourceName = resourceFileName(resource);
@@ -50,7 +54,6 @@ export const FileElement = ({ path = [], resource, level }: FileElementProps): J
       unselectResource();
     } else if (_selected && !_checked) {
       // Do not show the same error twice
-      toast.dismiss(toastId);
       toast(
         `To unselect ${resourceName}, please unselect the corresponding parent and select its siblings instead`,
         { duration: 10000, id: toastId },
@@ -62,7 +65,7 @@ export const FileElement = ({ path = [], resource, level }: FileElementProps): J
 
   return (
     <>
-      <li className="fric space-x-4">
+      <li className="fric space-x-4 select-text">
         <div
           className="fric space-x-2"
           style={{ width: `${layout[0]}%`, ...childResourceIndent(level) }}
@@ -106,20 +109,39 @@ export const FileElement = ({ path = [], resource, level }: FileElementProps): J
                 </>
               )
           }
-          <span>{resourceName}</span>
+          <span title={`Full path: /${resource.inode_path.path}`}>{resourceName}</span>
         </div>
-        <div style={{ width: `${layout[1]}%` }}>
-          {resource.indexed_at ?? <small className="text-slate-300">(not indexed)</small>}
+        <div
+          style={{ width: `${layout[1]}%` }}
+          title={moment(resource.created_at).fromNow(false)}
+          className={cn({ "cursor-help": !!resource.indexed_at })}
+        >
+          {
+            resource.indexed_at
+              ? (
+                <small>{moment(resource.indexed_at).format(DATE_FORMATS.mdhm)}</small>
+              )
+              : (
+                <small className="text-slate-300">(not indexed)</small>
+              )
+          }
         </div>
         <div
           style={{ width: `${layout[2]}%` }}
           className="cursor-help"
           title={moment(resource.created_at).fromNow(false)}
         >
-          <small className="fric space-x-1">
-            <ClockIcon />
-            <span>{moment(resource.created_at).format(DATE_FORMATS.mdhm)}</span>
-          </small>
+          <small>{moment(resource.created_at).format(DATE_FORMATS.mdhm)}</small>
+        </div>
+
+        <div
+          style={{ width: `${layout[3]}%` }}
+          className="cursor-help"
+          hidden={!actions}
+        >
+          {
+            actions?.({ resource })
+          }
         </div>
       </li>
 
@@ -128,6 +150,7 @@ export const FileElement = ({ path = [], resource, level }: FileElementProps): J
         <FileElementResources
           path={path}
           resourceId={resource.resource_id}
+          resourcePath={resource.inode_path.path}
           level={level + 1}
         />
       }

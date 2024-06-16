@@ -20,7 +20,7 @@ export const EndSession = (): JSX.Element => {
   return (
     <form
       action={destroySession}
-      className="fixed right-4 bottom-4"
+      className="fixed right-4 top-4 !m-0"
     >
       <Button type="submit" variant="outline">End session</Button>
     </form>

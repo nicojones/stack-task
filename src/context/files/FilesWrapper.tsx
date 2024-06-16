@@ -1,18 +1,24 @@
 "use client";
 
+import { UseQueryOptions } from "@tanstack/react-query";
 import { useCallback, useMemo, useRef, useState } from "react";
 
 import { arrayIntersection, lastElementIfArray } from "@/functions";
-import { ComponentChildren, IResourceAncestry, ISelectedFilesContext } from "@/types";
+import { ComponentChildren, IConnectionResourceElement, IFilesContext, IResourceAncestry, IResourceAndPath } from "@/types";
 
-import { SelectedFilesContext } from "./selected-files.context";
-import { checkAllRootResourcesSelected, getNonChildResources, resourceOrAncestorIsSelected } from "./selected-files-helper.function";
+import { FilesContext } from "./files.context";
+import { checkAllRootResourcesSelected, getNonChildResources, resourceOrAncestorIsSelected } from "./files-helper.function";
 
-interface SelectedFilesWrapperProps {
+interface FilesWrapperProps {
   children: ComponentChildren;
+
+  /**
+   * Returns the {@link UseQueryOptions} data to perform the request
+   */
+  queryOptions: (data: IResourceAndPath) => UseQueryOptions<IConnectionResourceElement[], any>;
 }
 
-export const SelectedFilesWrapper = ({ children }: SelectedFilesWrapperProps): JSX.Element => {
+export const FilesWrapper = ({ children, queryOptions }: FilesWrapperProps): JSX.Element => {
   const [resources, setResources] = useState<string[]>([]);
   const resourceTree = useRef<IResourceAncestry>({});
 
@@ -59,7 +65,7 @@ export const SelectedFilesWrapper = ({ children }: SelectedFilesWrapperProps): J
     return undefined;
   }, [resources]);
 
-  const handleToggleAll = useCallback((): void => {
+  const handleToggleAll = useCallback((nextState?: boolean): void => {
     const allResources: string[] = Object.keys(resourceTree.current);
     // Only the top level resources must be added
     const topLevelResources: string[] = [];
@@ -69,11 +75,17 @@ export const SelectedFilesWrapper = ({ children }: SelectedFilesWrapperProps): J
       }
     }
     // Finally, set as selected:
-    setResources(
-      resources.length === topLevelResources.length
-        ? [] // Unselect all, if they were all selected
-        : topLevelResources, // else, select only all the top levels
-    );
+    if (nextState !== undefined) {
+      setResources(
+        nextState ? topLevelResources : [],
+      );
+    } else {
+      setResources(
+        resources.length === topLevelResources.length
+          ? [] // Unselect all, if they were all selected
+          : topLevelResources, // else, select only all the top levels
+      );
+    }
   }, [resources]);
 
   const updateResourcesTree = useCallback((path: string[]): void => {
@@ -81,14 +93,13 @@ export const SelectedFilesWrapper = ({ children }: SelectedFilesWrapperProps): J
     path.reverse();
     // Extract the resourceId and the rest of the path
     const [resourceId, ...restOfPath] = path;
-    console.log("PATH", resourceId, restOfPath);
     // Add the resource to the tree.
     if (resourceId) {
       resourceTree.current[resourceId] = [...restOfPath];
     }
   }, []);
 
-  const context = useMemo<ISelectedFilesContext>(() => ({
+  const context = useMemo<IFilesContext>(() => ({
     resources,
     selectResource: handleSelectResource as any, // (we know more than Typescript here, so `as any` is ok)
     unselectResource: handleUnselectResource as any, // (we know more than Typescript here, so `as any` is ok)
@@ -96,18 +107,18 @@ export const SelectedFilesWrapper = ({ children }: SelectedFilesWrapperProps): J
     isChecked: handleIsChecked as any, // (we know more than Typescript here, so `as any` is ok)
     toggleAll: handleToggleAll,
     allSelected: handleGlobalToggleState,
+    selectedResources: resources,
     updateResourcesTree,
+    queryOptions,
     _insideContext_: true,
 
     // Note: the other callbacks have the same dependency array so can be ommited
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }), [resources]);
-
-  console.log(resourceTree.current);
+  }), [resources, queryOptions]);
 
   return (
-    <SelectedFilesContext.Provider value={context}>
+    <FilesContext.Provider value={context}>
       {children}
-    </SelectedFilesContext.Provider>
+    </FilesContext.Provider>
   );
 };

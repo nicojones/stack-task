@@ -44,6 +44,17 @@ export const FileElementHeader = (): JSX.Element => {
       >
         Created At
       </ResizablePanel>
+      <ResizableHandle
+        withHandle
+        className="-translate-x-2"
+      />
+      <ResizablePanel
+        defaultSize={FPE_COLUMN_SIZE.actions}
+        maxSize={FPE_COLUMN_SIZE.actions}
+        minSize={FPE_COLUMN_SIZE.actions / 2}
+      >
+        Actions
+      </ResizablePanel>
     </ResizablePanelGroup>
   );
 };

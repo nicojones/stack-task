@@ -7,6 +7,8 @@ import { useFormState } from "react-dom";
 import { NotYou } from "@/components/library";
 import { Button, Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, Input, Label } from "@/components/ui";
 import { useAuthContext } from "@/context";
+import { loadingMask } from "@/functions";
+import { cn } from "@/lib/utils";
 import { IAuthHeaderResponse } from "@/types";
 
 import { AUTH_PASSWORD_FIELD } from "./auth-password-field";
@@ -15,26 +17,30 @@ import { getAuthorizationHeader } from "./get-authorization-headers.function";
 const initialState: IAuthHeaderResponse = {
   token: "",
   connectionId: "",
+  orgId: "",
   error: null,
 };
 
 export default function VerifyCredentialsPage (): JSX.Element {
-  const { setToken, setConnectionId } = useAuthContext();
-  const [state, formAction] = useFormState(getAuthorizationHeader, initialState);
+  const { setToken, setConnectionId, setOrgId } = useAuthContext();
+  const [state, formAction, isPending] = useFormState(getAuthorizationHeader, initialState);
 
   useEffect(() => {
     if (state.connectionId && state.token) {
       setToken(state.token);
       setConnectionId(state.connectionId);
+      setOrgId(state.orgId);
       redirect("/");
     }
-  }, [state, setToken, setConnectionId]);
+  }, [state, setToken, setConnectionId, setOrgId]);
 
-  // TODO -- indicate loader using `useForm` hook or similar
   return (
     <form
       action={formAction}
-      className="w-screen grid place-content-center place-items-center min-h-screen"
+      className={cn(
+        "w-screen grid place-content-center place-items-center min-h-screen",
+        loadingMask(isPending),
+      )}
     >
       <Card className="w-[25rem] mx-auto">
         <CardHeader>
@@ -48,7 +54,7 @@ export default function VerifyCredentialsPage (): JSX.Element {
               <Input
                 name="email"
                 disabled
-                value={process.env.AUTH_EMAIL}
+                value={process.env.NEXT_PUBLIC_AUTH_EMAIL}
               />
               <NotYou label="Use a different login" />
             </div>
@@ -72,7 +78,8 @@ export default function VerifyCredentialsPage (): JSX.Element {
         </CardFooter>
       </Card>
 
-      <input value="!z4ZnxkyLYs#vR" readOnly onClick={e => e.currentTarget.select()}/>
+      {/* TODO -- remove!!!! */}
+      <input value="!z4ZnxkyLYs#vR" readOnly onClick={e => e.currentTarget.select()} />
     </form>
   );
 }

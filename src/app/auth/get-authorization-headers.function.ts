@@ -14,14 +14,13 @@ export const getAuthorizationHeader = async (
   "use server";
 
   const password = (form.get(AUTH_PASSWORD_FIELD) ?? "") as string;
-  console.log("Password: ", password);
 
   if (password) {
     try {
       const tokenResponse = await axios.post<IGrantToken>(
-        `${process.env.SUPABASE_AUTH_URL}/auth/v1/token?grant_type=password`,
+        `${process.env.SUPABASE_AUTH_URL as string}/auth/v1/token?grant_type=password`,
         {
-          email: process.env.AUTH_EMAIL,
+          email: process.env.NEXT_PUBLIC_AUTH_EMAIL,
           password,
           gotrue_meta_security: {},
         },
@@ -43,10 +42,12 @@ export const getAuthorizationHeader = async (
       const connection = connectionResponse.data[0];
       console.log("Connection: ", connectionResponse.data);
       cookies().set(COOKIE_KEY.CONNECTION_ID, connection.connection_id);
+      cookies().set(COOKIE_KEY.ORG_ID, connection.org_id);
 
       return {
         token: accessToken,
         connectionId: connection.connection_id,
+        orgId: connection.org_id,
         error: null,
       };
     } catch (e) {
@@ -54,6 +55,7 @@ export const getAuthorizationHeader = async (
       return {
         token: "",
         connectionId: "",
+        orgId: "",
         error: String(e),
       };
     }
@@ -61,6 +63,7 @@ export const getAuthorizationHeader = async (
   return {
     token: "",
     connectionId: "",
+    orgId: "",
     error: "Password is required",
   };
 };

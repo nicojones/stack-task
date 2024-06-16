@@ -14,6 +14,9 @@ export const AuthContext = createContext<IAuthContext>({
   connectionId: "",
   setConnectionId: () => null,
 
+  orgId: "",
+  setOrgId: () => null,
+
   _insideContext_: false,
 });
 

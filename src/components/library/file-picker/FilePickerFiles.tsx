@@ -1,33 +1,29 @@
 "use client";
 
-import { Checkbox, Label } from "@/components/ui";
-import { useSelectedFilesContext } from "@/context";
+import { useFilesContext } from "@/context";
 import { ResizableWrapper } from "@/context/resizable/ResizableWrapper";
+import { IFilePickerHeaderActions } from "@/types";
 
 import { FileElementHeader, FileElementResources } from "./element";
 
-export const FilePickerFiles = (): JSX.Element => {
-  const { toggleAll, allSelected } = useSelectedFilesContext([]);
-  const _allSelected = allSelected();
+interface FilePickerFilesProps {
+  children?: (actions: IFilePickerHeaderActions) => JSX.Element;
+}
+
+export const FilePickerFiles = ({ children }: FilePickerFilesProps): JSX.Element => {
+  const { toggleAll, allSelected: getAllSelected } = useFilesContext([]);
+  const allSelected = getAllSelected();
 
   return (
     <div className="flex flex-col space-y-4">
-      <div className="fric justify-between">
-        <div className="fric space-x-1">
-          <Checkbox
-            id="select-all-files"
-            checked={_allSelected ?? "indeterminate"}
-            onCheckedChange={() => toggleAll()}
-          />
-          <Label htmlFor="select-all-files">
-            {
-              _allSelected
-                ? "Unselect all"
-                : "Select all"
-            }
-          </Label>
+      {
+        children &&
+        <div className="fric justify-between">
+          <div className="fric space-x-1">
+            {children({ allSelected, onToggle: toggleAll })}
+          </div>
         </div>
-      </div>
+      }
       <ResizableWrapper>
         <ul
           className="space-y-2"

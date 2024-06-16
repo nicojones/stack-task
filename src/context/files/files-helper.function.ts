@@ -7,7 +7,6 @@ import { IResourceAncestry } from "@/types";
  * This is always the case when at least one of the ancestors of our resource is selected.
  */
 export const resourceOrAncestorIsSelected = (resources: string[], path: string[]): boolean => {
-  // console.log("checking if it contains it", { resources, path });
   for (let i = 0, len = path.length; i < len; ++i) {
     if (resources.includes(path[i])) {
       return true;
@@ -38,6 +37,12 @@ export const getNonChildResources = (
   return nonChildResources;
 };
 
+/**
+ * Returns true if all the root resources are selected
+ * @note It is possible to select all the resources under the root directories without selecting the directories themselves.
+ *    This would mean that (technically) all the FILES are selected, but the system will still prompt to "Select all".
+ *    While it could be improved with more exhaustive checks, I think is a very extreme case and I have not accommodated for it.
+ */
 export const checkAllRootResourcesSelected = (resources: string[], ancestry: IResourceAncestry): boolean => {
   const rootResources: string[] = Object.keys(ancestry).filter(k => ancestry[k].length === 0);
   if (

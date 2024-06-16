@@ -1,10 +1,11 @@
 "use client";
 
+import { UseQueryOptions } from "@tanstack/react-query";
 import { createContext, useContext } from "react";
 
-import { ISelectedFilesContext } from "@/types";
+import { IFilesContext } from "@/types";
 
-export const SelectedFilesContext = createContext<ISelectedFilesContext>({
+export const FilesContext = createContext<IFilesContext>({
   isChecked: () => false,
   isSelected: () => false,
   selectResource: () => null,
@@ -12,18 +13,20 @@ export const SelectedFilesContext = createContext<ISelectedFilesContext>({
   toggleAll: () => null,
   updateResourcesTree: () => null,
   allSelected: () => false,
+  selectedResources: [],
+  queryOptions: () => ({} as unknown as UseQueryOptions<any>),
 
   _insideContext_: false,
 });
 
-export const useSelectedFilesContext = (path: string[]): ISelectedFilesContext => {
-  const context = useContext<ISelectedFilesContext>(SelectedFilesContext);
+export const useFilesContext = (path: string[]): IFilesContext => {
+  const context = useContext<IFilesContext>(FilesContext);
 
   if (!context._insideContext_) {
-    throw new Error("`useSelectedFilesContext` must be used inside of `SelectedFilesContext`.");
+    throw new Error("`useFilesContext` must be used inside of `IFilesContext`.");
   }
 
-  // Update the Ref
+  // Update the Ref for each of the elements that are added to our tree.
   context.updateResourcesTree([...path]);
 
   return {

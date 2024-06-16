@@ -1,6 +1,8 @@
-import { IInsideContext } from "@/types";
+import { UseQueryOptions } from "@tanstack/react-query";
 
-export interface ISelectedFilesContext extends IInsideContext {
+import { IConnectionResourceElement, IInsideContext, IResourceAndPath } from "@/types";
+
+export interface IFilesContext extends IInsideContext {
   /**
    * Returns whether the current resource has been explicitly selected.
    * @param _ Ignore this parameter when calling via hook
@@ -18,6 +20,7 @@ export interface ISelectedFilesContext extends IInsideContext {
    * @param _ Ignore this parameter when calling via hook
    */
   selectResource: (_?: string[]) => any;
+
   /**
    * Selects or unselects the current resource
    * @param _ Ignore this parameter when calling via hook
@@ -26,8 +29,9 @@ export interface ISelectedFilesContext extends IInsideContext {
 
   /**
    * Toggles all the resources
+   * @param nextState Use this to force a "all selected" or "none selected" state
    */
-  toggleAll: () => any;
+  toggleAll: (nextState?: boolean) => any;
 
   /**
    * Returns `true || false || undefined` to represent the global checked state
@@ -38,4 +42,14 @@ export interface ISelectedFilesContext extends IInsideContext {
    * Add the current [resourceId, path] pair to the Ref. This is a write-only operation
    */
   updateResourcesTree: (path: string[]) => any;
+
+  /**
+   * Returns the ID[] of checked/selected resources
+   */
+  selectedResources: string[];
+
+  /**
+   * Returns the {@link UseQueryOptions} data to perform the request
+   */
+  queryOptions: (data: IResourceAndPath) => UseQueryOptions<IConnectionResourceElement[], any>;
 }

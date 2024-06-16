@@ -4,6 +4,7 @@
 export const COOKIE_KEY = {
   AUTH_TOKEN: "token",
   CONNECTION_ID: "conn_id",
+  ORG_ID: "org_id",
 } as const;
 
 type ICookieAccessor = keyof typeof COOKIE_KEY;

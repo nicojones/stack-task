@@ -2,14 +2,13 @@
 
 import { useQuery } from "@tanstack/react-query";
 
-import { useAuthContext } from "@/context";
-import { resourceChildrenQuery } from "@/query";
+import { useFilesContext } from "@/context";
 import { IFilePickerSharedProps } from "@/types";
 
 import { FileElement, FileSkeleton } from ".";
 import { FileElementEmpty } from "./FileElementEmpty";
 
-interface FilePickerFilesProps extends IFilePickerSharedProps {
+interface FileElementResourcesProps extends IFilePickerSharedProps {
   /**
    * The ID of the resource for which to fetch its children. If not set, fetches the root resource
    */
@@ -18,17 +17,22 @@ interface FilePickerFilesProps extends IFilePickerSharedProps {
    * @default 3
    */
   skeletons?: number;
-
+  /**
+   * The Path to the current resource
+   */
+  resourcePath?: string;
 }
 
 export const FileElementResources = ({
   path = [],
   level = 0,
   resourceId,
+  resourcePath = "/",
   skeletons = 3,
-}: FilePickerFilesProps): JSX.Element => {
-  const { api, connectionId } = useAuthContext();
-  const { data, isLoading } = useQuery(resourceChildrenQuery(api, connectionId, resourceId));
+}: FileElementResourcesProps): JSX.Element => {
+  console.log("RESOURCE DATA", resourceId, path);
+  const { queryOptions } = useFilesContext(path);
+  const { data, isLoading } = useQuery(queryOptions({ resourceId, resourcePath }));
 
   return (
     isLoading
@@ -50,6 +54,7 @@ export const FileElementResources = ({
                   key={d.resource_id}
                   resource={d}
                   level={level}
+                  // TODO -- this should be the Path or the Resource depending on the component.
                   path={[...path, d.resource_id]}
                 />)
               : <FileElementEmpty />
