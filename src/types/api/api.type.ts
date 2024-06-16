@@ -1,7 +1,7 @@
 import { AxiosInstance, HeadersDefaults } from "axios";
 
 export interface IApiOptions {
-  token?: string;
+  token: string | null;
   signal?: AbortSignal;
   headers?: Partial<HeadersDefaults>;
 }

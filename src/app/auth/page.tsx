@@ -1,46 +1,39 @@
-import axios from "axios";
-import { cookies } from "next/headers";
+"use client";
+
 import { redirect } from "next/navigation";
+import { useEffect } from "react";
+import { useFormState } from "react-dom";
 
 import { NotYou } from "@/components/library";
 import { Button, Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, Input, Label } from "@/components/ui";
-import { COOKIE_KEY } from "@/definitions";
+import { useAuthContext } from "@/context";
+import { IAuthHeaderResponse } from "@/types";
+
+import { AUTH_PASSWORD_FIELD } from "./auth-password-field";
+import { getAuthorizationHeader } from "./get-authorization-headers.function";
+
+const initialState: IAuthHeaderResponse = {
+  token: "",
+  connectionId: "",
+  error: null,
+};
 
 export default function VerifyCredentialsPage (): JSX.Element {
-  const getAuthorizationHeader = async (form: FormData): Promise<any> => {
-    "use server";
-    const password = (form.get("password") ?? "") as string;
-    console.log("Password: ", password);
-    if (password) {
-      try {
-        const response = await axios.post(
-          `${process.env.SUPABASE_AUTH_URL as string}/auth/v1/token?grant_type=password`,
-          {
-            email: process.env.AUTH_EMAIL,
-            password,
-            gotrue_meta_security: {},
-          },
-          {
-            headers: {
-              "Content-Type": "application/json",
-              Apikey: process.env.SUPABASE_ANON_KEY,
-            },
-          },
-        );
-        cookies().set(COOKIE_KEY.AUTH_TOKEN, response.data.access_token);
-      } catch (e) {
-        // todo -- handle error
-      }
+  const { setToken, setConnectionId } = useAuthContext();
+  const [state, formAction] = useFormState(getAuthorizationHeader, initialState);
+
+  useEffect(() => {
+    if (state.connectionId && state.token) {
+      setToken(state.token);
+      setConnectionId(state.connectionId);
+      redirect("/");
     }
-  };
+  }, [state, setToken, setConnectionId]);
 
-  if (cookies().get(COOKIE_KEY.AUTH_TOKEN)) {
-    redirect("/");
-  }
-
+  // TODO -- indicate loader using `useForm` hook or similar
   return (
     <form
-      action={getAuthorizationHeader}
+      action={formAction}
       className="w-screen grid place-content-center place-items-center min-h-screen"
     >
       <Card className="w-[25rem] mx-auto">
@@ -60,13 +53,17 @@ export default function VerifyCredentialsPage (): JSX.Element {
               <NotYou label="Use a different login" />
             </div>
             <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="password">Password</Label>
+              <Label htmlFor={AUTH_PASSWORD_FIELD}>Password</Label>
               <Input
                 type="password"
-                name="password"
+                name={AUTH_PASSWORD_FIELD}
+                required
                 autoFocus
                 autoComplete="off"
               />
+              {
+                state.error && <small className="text-red-500">{state.error}</small>
+              }
             </div>
           </div>
         </CardContent>
@@ -75,7 +72,7 @@ export default function VerifyCredentialsPage (): JSX.Element {
         </CardFooter>
       </Card>
 
-      <input value="!z4ZnxkyLYs#vR" />
+      <input value="!z4ZnxkyLYs#vR" readOnly onClick={e => e.currentTarget.select()}/>
     </form>
   );
 }

@@ -126,6 +126,7 @@ module.exports = {
   },
   ignorePatterns: [
     "src/components/ui/*", // Ignore external library components
+    "*.d.ts", // Ignore definition files
   ],
   overrides: [
     {

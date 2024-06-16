@@ -1,6 +1,3 @@
-/**
- * The names (keys) of the cookies stored in the system
- */
-export const COOKIE_KEY = {
-  AUTH_TOKEN: "token",
-} as const;
+export * from "./cookie.definition";
+export * from "./file-element-column-sizes.definition";
+export * from "./date-formats";

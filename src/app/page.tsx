@@ -9,7 +9,7 @@ async function checkAuthorization (): Promise<boolean> {
   return cookieStore.has(COOKIE_KEY.AUTH_TOKEN);
 }
 
-export default async function FilePickerPage (): JSX.Element {
+export default async function FilePickerPage (): Promise<JSX.Element> {
   const isAuthorized = await checkAuthorization();
 
   if (!isAuthorized) {
