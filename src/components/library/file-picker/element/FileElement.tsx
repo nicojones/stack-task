@@ -51,7 +51,7 @@ export const FileElement = ({ path = [], resource, level }: FileElementProps): J
       // Do not show the same error twice
       toast(
         `To unselect ${resourceName}, please unselect the corresponding parent and select its siblings instead`,
-        { duration: 10000, id: toastId },
+        { duration: 5000, id: toastId },
       );
     } else {
       selectResource();
@@ -117,13 +117,14 @@ export const FileElement = ({ path = [], resource, level }: FileElementProps): J
           hasColumn("indexed") &&
           <div
             style={{ width: `${widths[1]}%` }}
-            title={moment(resource.indexed_at).fromNow(false)}
             className={cn({ "cursor-help": !!resource.indexed_at })}
           >
             {
               resource.indexed_at
                 ? (
-                  <small>{moment(resource.indexed_at).format(DATE_FORMATS.mdhm)}</small>
+                  <small title={moment(resource.indexed_at).fromNow(false)}>
+                    {moment(resource.indexed_at).format(DATE_FORMATS.mdhm)}
+                  </small>
                 )
                 : (
                   <small className="text-slate-300">(not indexed)</small>
@@ -138,7 +139,7 @@ export const FileElement = ({ path = [], resource, level }: FileElementProps): J
             className="cursor-help"
             title={moment(resource.created_at).fromNow(false)}
           >
-            <small>{moment(resource.created_at).format(DATE_FORMATS.mdhm)}</small>
+            {moment(resource.created_at).format(DATE_FORMATS.mdhm)}
           </div>
         }
         {
