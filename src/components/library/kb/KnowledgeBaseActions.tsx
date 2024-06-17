@@ -32,7 +32,7 @@ export const KnowledgeBaseActions = ({ data }: KnowledgeBaseActionsProps): JSX.E
   };
 
   const handleConfirmDeindexResource = (): void => {
-    toast("Remove from the Knowledge Base?", {
+    toast("Remove from the Knowledge Base? (WILL ERROR)", {
       action: (
         <Button size="sm" className="ml-auto" onClick={handleDeindexResource}>Remove</Button>
       ),
