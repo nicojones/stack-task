@@ -11,7 +11,6 @@ export const useRetryQuery = <T extends Record<string, any>>({
     queryFn,
     queryKey,
     retry: (failureCount: number, error: any): boolean => {
-      console.log("RETRY!!!?!?!?!");
       return retryIfConditionMetFn(error as T, failureCount);
     },
     retryDelay: (_retryAttempt: number): number => {

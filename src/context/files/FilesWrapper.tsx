@@ -24,16 +24,13 @@ export const FilesWrapper = ({ children, queryOptions }: FilesWrapperProps): JSX
 
   const handleSelectResource = useCallback((path: string[]): void => {
     const resourceId = lastElementIfArray(path);
-    // console.log("will check now (adding)", resourceId, path);
     if (resourceId && !resourceOrAncestorIsSelected(resources, path)) {
-      // console.log("will add a resource", [...resources, resourceId]);
       setResources(r => arrayIntersection([...r, resourceId], getNonChildResources(resourceId, resourceTree.current)));
     }
   }, [resources]);
 
   const handleUnselectResource = useCallback((path: string[]): void => {
     const resourceId = lastElementIfArray(path);
-    // console.log("will check now (removing)", resourceId, path);
     if (resourceId && resourceOrAncestorIsSelected(resources, path)) {
       setResources(r => [...r.filter(_r => _r !== resourceId)]);
     }

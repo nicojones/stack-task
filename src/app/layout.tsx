@@ -28,7 +28,6 @@ export default function RootLayout ({
           </AuthWrapper>
         </QueryWrapper>
         <Toaster expand={false} />
-
         <EndSession />
       </body>
     </html>

@@ -31,8 +31,7 @@ export const FilePickerKbCreator = ({
         toggleAll(false);
         onCreateKb(created.knowledge_base_id);
       })
-      .catch(console.error)
-      .finally(() => setLoading(false));
+      .catch(console.error);
   }, [api, connectionId, selectedResources, toggleAll, onCreateKb, setLoading]);
 
   useLayoutEffect(() => {
@@ -44,7 +43,10 @@ export const FilePickerKbCreator = ({
   }, [selectedResources, handleCreateKnowledgeBase, loading]);
 
   useEffect(() => {
-    return () => pickedFilesToast(0, () => null, false);
+    return () => {
+      pickedFilesToast(0, () => null, false);
+      setLoading(false);
+    };
   }, []);
 
   return children;
