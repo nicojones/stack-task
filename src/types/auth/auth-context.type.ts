@@ -28,13 +28,11 @@ export interface IAuthContext extends IInsideContext {
 
   /**
    * The ID of the current organization
-   * TODO -- delete if unused!
    */
   orgId: string;
 
   /**
    * Set the ID of the organization
-   * TODO -- delete if unused!
    */
   setOrgId: (orgId: string) => any;
 }

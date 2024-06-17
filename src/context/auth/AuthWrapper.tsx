@@ -16,7 +16,6 @@ interface AuthWrapperProps {
 export const AuthWrapper = ({ children }: AuthWrapperProps): JSX.Element => {
   const [token, setToken] = useState<string | null>(Cookie.get(COOKIE_KEY.AUTH_TOKEN) ?? null);
   const [connectionId, setConnectionId] = useState<string>(Cookie.get(COOKIE_KEY.CONNECTION_ID) ?? "");
-  // TODO -- delete if unused!
   const [orgId, setOrgId] = useState<string>(Cookie.get(COOKIE_KEY.ORG_ID) ?? "");
 
   const context = useMemo<IAuthContext>(() => ({

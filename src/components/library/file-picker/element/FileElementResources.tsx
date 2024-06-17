@@ -53,7 +53,6 @@ export const FileElementResources = ({
                   key={d.resource_id}
                   resource={d}
                   level={level}
-                  // TODO -- this should be the Path or the Resource depending on the component.
                   path={[...path, d.resource_id]}
                 />)
               : <FileElementEmpty />

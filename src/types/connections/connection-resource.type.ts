@@ -5,7 +5,7 @@ export interface IConnectionResource {
 export interface IConnectionResourceElement {
   created_at: string;
   indexed_at: string;
-  inode_id: string | null; // todo -- check
+  inode_id: string | null;
   inode_path: {
     /**
      * The name of the file

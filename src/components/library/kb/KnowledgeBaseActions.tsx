@@ -15,6 +15,9 @@ const CONFIRM_TOAST_ID = "confirm-deindex";
 export const KnowledgeBaseActions = ({ data }: KnowledgeBaseActionsProps): JSX.Element => {
   const { api } = useAuthContext();
 
+  /**
+   * TODO -- add optimistic update for demonstration purposes if we don't have time to develop it.
+   */
   const handleDeindexResource = (): void => {
     toast.dismiss(CONFIRM_TOAST_ID);
     const query = toQuery({ resource_path: data.resource.inode_path.path });

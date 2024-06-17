@@ -51,9 +51,6 @@ export const VerifyCredentialsForm = ({ state }: VerifyCredentialsFormProps): JS
           <Button type="submit">Log In</Button>
         </CardFooter>
       </Card>
-
-      {/* TODO -- remove!!!! */}
-      <input value="!z4ZnxkyLYs#vR" readOnly onClick={e => e.currentTarget.select()} />
     </>
   );
 };
