@@ -1,14 +1,24 @@
-export const FPE_COLUMN_SIZE = {
-  file: 60,
-  indexed: 10,
+/**
+ * Sizes for the columns in the file browser, in %
+ * @note make sure they add to 100% to avoid Cumulative Layout Shifts!
+ */
+export const FILES_COLUMN_SIZE = {
+  file: 80,
+  createdAt: 20,
+} as const;
+
+/**
+ * Sizes for the columns in the KB browser, in %
+ * @note make sure they add to 100% to avoid Cumulative Layout Shifts!
+ */
+export const KB_FILES_COLUMN_SIZE = {
+  file: 50,
+  indexed: 20,
   createdAt: 20,
   actions: 10,
 } as const;
 
-export type IFpeColumnSizeKeys = keyof typeof FPE_COLUMN_SIZE;
+export type IFpeColumnSizeKeys = keyof typeof FILES_COLUMN_SIZE;
+export type IKBFpeColumnSizeKeys = keyof typeof KB_FILES_COLUMN_SIZE;
 
-// Verify the sizes add up to 100 or less (on runtime)
-const _totalSize = Object.values(FPE_COLUMN_SIZE).reduce((sum, value) => sum + value, 0);
-if (_totalSize < 99.9 || _totalSize > 100.1) {
-  throw new Error("Invalid sizes, must add up to 100");
-}
+export type IColumnSizes = IFpeColumnSizeKeys | IKBFpeColumnSizeKeys;

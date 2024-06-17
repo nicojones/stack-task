@@ -1,6 +1,7 @@
 "use client";
 
 import { Dispatch, SetStateAction, useCallback, useEffect, useLayoutEffect } from "react";
+import { toast } from "sonner";
 
 import { useAuthContext, useFilesContext } from "@/context";
 import { createKnowledgeBaseResource } from "@/resources";
@@ -26,12 +27,19 @@ export const FilePickerKbCreator = ({
 
   const handleCreateKnowledgeBase = useCallback((): void => {
     setLoading(true);
-    createKnowledgeBaseResource(api, connectionId, selectedResources)
-      .then((created: IKnowledgeBaseCreated) => {
+    const promise = createKnowledgeBaseResource(api, connectionId, selectedResources);
+
+    toast.promise(promise, {
+      success: (created: IKnowledgeBaseCreated) => {
         toggleAll(false);
         onCreateKb(created.knowledge_base_id);
-      })
-      .catch(console.error);
+        return "Created successfully";
+      },
+      error: (error: any) => {
+        console.error(error);
+        return String(error);
+      },
+    });
   }, [api, connectionId, selectedResources, toggleAll, onCreateKb, setLoading]);
 
   useLayoutEffect(() => {
@@ -47,7 +55,7 @@ export const FilePickerKbCreator = ({
       pickedFilesToast(0, () => null, false);
       setLoading(false);
     };
-  }, []);
+  }, [setLoading]);
 
   return children;
 };

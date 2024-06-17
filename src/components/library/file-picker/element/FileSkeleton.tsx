@@ -1,24 +1,40 @@
 import { Skeleton } from "@/components/ui";
 import { useResizableContext } from "@/context/resizable/resizable.context";
 import { childResourceIndent } from "@/functions";
+import { IResizableColumn } from "@/types";
 
 interface FileSkeletonProps {
   level: number;
 }
 
 export const FileSkeleton = ({ level }: FileSkeletonProps): JSX.Element => {
-  const { widths } = useResizableContext();
+  const { widths, columns } = useResizableContext();
+  console.log(widths);
   return (
     <li className="flex items-center space-x-4 cursor-progress">
       <div
         className="fric space-x-2 py-1"
         style={{ width: `${widths[0]}%`, ...childResourceIndent(level) }}
       >
+        <Skeleton className="size-5" />
         <Skeleton className="size-7 rounded-lg" />
         <Skeleton className="h-7 w-full" />
       </div>
-      <Skeleton style={{ width: `${widths[1]}%` }} className="h-7 py-1" />
-      <Skeleton style={{ width: `${widths[2]}%` }} className="h-7 py-1" />
+      {
+        columns
+          .filter(c => c.type === "panel")
+          .map((c: IResizableColumn, index: number) =>
+            index === 0
+              ? null
+              : (
+                <Skeleton
+                  key={c.id}
+                  style={{ width: `${widths[index]}%` }}
+                  className="h-7 py-1"
+                />
+              ),
+          )
+      }
     </li>
   );
 };

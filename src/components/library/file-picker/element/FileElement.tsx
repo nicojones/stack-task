@@ -106,7 +106,11 @@ export const FileElement = ({ path = [], resource, level }: FileElementProps): J
                   </>
                 )
             }
-            <span title={`Full path: /${resource.inode_path.path}`}>{resourceName}</span>
+            <span
+              className="text-sm"
+              title={`Full path: /${resource.inode_path.path}`}
+            >{resourceName}
+            </span>
           </div>
         }
         {

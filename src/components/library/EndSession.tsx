@@ -22,7 +22,7 @@ export const EndSession = (): JSX.Element => {
       action={destroySession}
       className="fixed right-4 top-4 !m-0"
     >
-      <Button type="submit" variant="outline">End session</Button>
+      <Button type="submit" variant="ghost">Log out</Button>
     </form>
   );
 };

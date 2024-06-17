@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useEffect, useLayoutEffect, useState } from "react";
 
 import { CopyToClipboard } from "@/components/library";
@@ -9,6 +10,7 @@ import { ResizableWrapper, useAuthContext, useFilesContext } from "@/context";
 import { RESIZABLE_PANEL_COLUMNS_KB } from "@/definitions";
 import { loadingMask } from "@/functions";
 import { useRetryQuery } from "@/hooks";
+import { cn } from "@/lib/utils";
 import { syncKnowledgeBase } from "@/resources";
 import { IConnectionResourceElement } from "@/types";
 
@@ -20,6 +22,7 @@ interface KnowledgeBaseItemProps {
 export const KnowledgeBaseItem = ({ knowledgeBaseId, path }: KnowledgeBaseItemProps): JSX.Element => {
   const { api, orgId } = useAuthContext();
   const { queryOptions } = useFilesContext(path);
+  const router = useRouter();
 
   useEffect(() => {
     // Run once to start the sync
@@ -33,16 +36,30 @@ export const KnowledgeBaseItem = ({ knowledgeBaseId, path }: KnowledgeBaseItemPr
     },
   });
 
+  const handleDismissCard = (): void => {
+    router.push("/");
+  };
+
   return (
-    <div className={loadingMask(isLoading)}>
+    <div className="w-full" data-loading="Please wait...">
       <FilePickerCard
         header="Knowledge Base"
         description={
-          <span className="fric space-x-1">
-            <span>The following files are now indexed in your Knowledge Base. ID:</span>
-            <CopyToClipboard text={<kbd className="text-xs">{knowledgeBaseId}</kbd>} copyValue={knowledgeBaseId} />
+          <span className="flex items-baseline space-x-1">
+            <span>The following files are now indexed in your Knowledge Base.</span>
+
           </span>
         }
+        cardHeader={
+          <span className="fric">
+            <CopyToClipboard
+              text={<>ID: &nbsp; <kbd className="text-sm">{knowledgeBaseId}</kbd></>}
+              copyValue={knowledgeBaseId}
+            />
+          </span>
+        }
+        onClose={handleDismissCard}
+        loading={isLoading}
       >
         {
           isLoading

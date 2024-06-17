@@ -17,8 +17,8 @@ export const FilePickerFiles = ({ children }: FilePickerFilesProps): JSX.Element
     <div className="flex flex-col space-y-4">
       {
         children &&
-        <div className="fric justify-between">
-          <div className="fric space-x-1">
+        <div className="fric justify-between text-slate-700">
+          <div className="fric space-x-2">
             {children({ allSelected, onToggle: toggleAll })}
           </div>
         </div>
@@ -31,6 +31,7 @@ export const FilePickerFiles = ({ children }: FilePickerFilesProps): JSX.Element
         </li>
         <FileElementResources level={0} />
       </ul>
+
     </div>
   );
 };

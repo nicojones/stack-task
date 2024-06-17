@@ -5,8 +5,6 @@ export default async function Page ({ params }: IUrlParams<"kb_id">): Promise<JS
   const knowledgeBaseId = params.kb_id;
 
   return (
-    <main className="flex min-h-screen flex-col items-center space-y-20 p-24">
-      <KnowledgeBasePage knowledgeBaseId={knowledgeBaseId} />
-    </main>
+    <KnowledgeBasePage knowledgeBaseId={knowledgeBaseId} />
   );
 }

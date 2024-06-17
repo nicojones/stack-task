@@ -17,8 +17,6 @@ export default async function Page (): Promise<JSX.Element> {
   }
 
   return (
-    <main className="flex min-h-screen flex-col items-center space-y-20 p-24">
-      <FileExplorerPage />
-    </main>
+    <FileExplorerPage />
   );
 }

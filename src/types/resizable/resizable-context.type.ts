@@ -1,5 +1,5 @@
 
-import { IFpeColumnSizeKeys } from "@/definitions";
+import { IColumnSizes } from "@/definitions";
 import { IInsideContext } from "@/types/generic";
 
 import { IResizableColumn } from "./resizable-columns.type";
@@ -20,5 +20,5 @@ export interface IResizableContext extends IInsideContext {
   /**
    * Returns `true` if the column is defined
    */
-  hasColumn: (columnName: IFpeColumnSizeKeys) => boolean;
+  hasColumn: (columnName: IColumnSizes) => boolean;
 }

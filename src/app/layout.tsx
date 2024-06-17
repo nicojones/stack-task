@@ -24,7 +24,9 @@ export default function RootLayout ({
       <body className={inter.className}>
         <QueryWrapper>
           <AuthWrapper>
-            {children}
+            <main className="flex min-h-screen flex-col items-center space-y-20 p-24">
+              {children}
+            </main>
           </AuthWrapper>
         </QueryWrapper>
         <Toaster expand={false} />

@@ -73,6 +73,7 @@ module.exports = {
     "@typescript-eslint/no-non-null-assertion": ["warn"],
     "unused-imports/no-unused-imports": "error",
     "react/react-in-jsx-scope": "off",
+    "@typescript-eslint/array-type": "off",
     "react/jsx-filename-extension": [1, { extensions: [".ts", ".tsx"] }],
     "no-unused-vars": "off",
     "@typescript-eslint/no-confusing-void-expression": ["off", { ignoreArrowShorthand: true, ignoreVoidOperator: true }],

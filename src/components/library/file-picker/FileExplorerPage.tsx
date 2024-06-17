@@ -19,7 +19,7 @@ export const FileExplorerPage = (): JSX.Element => {
   const router = useRouter();
   const [loading, setLoading] = useState<boolean>(false);
 
-  const handleCreateKnowledgeBase = useCallback((newKnowledgeBaseId: string): void => {
+  const handleAfterKnowledgeBaseCreate = useCallback((newKnowledgeBaseId: string): void => {
     router.push(`/knowledge-base/${newKnowledgeBaseId}`);
   }, [router]);
 
@@ -27,19 +27,19 @@ export const FileExplorerPage = (): JSX.Element => {
     <>
       <div
         className={cn(
-          "grid place-content-center place-items-center drop-shadow-2xl",
-          loadingMask(loading),
+          "flex justify-center items-center drop-shadow-2xl w-full",
+          loadingMask(loading, true),
         )}
       >
         <FilesWrapper
           queryOptions={({ resourceId }) => resourceChildrenQuery(api, connectionId, resourceId)}
         >
           <FilePickerCard
-            header="Available files"
+            header="File System"
             description="Select the files you would like to add to your Stack AI workflow's Knowledge Base"
           >
             <FilePickerKbCreator
-              onCreateKb={handleCreateKnowledgeBase}
+              onCreateKb={handleAfterKnowledgeBaseCreate}
               setLoading={setLoading}
               loading={loading}
             >

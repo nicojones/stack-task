@@ -14,7 +14,7 @@ export const FileElementHeader = (): JSX.Element => {
     <ResizablePanelGroup
       direction="horizontal"
       onLayout={handleLayoutChange}
-      className="fric space-x-1 height-8 font-bold"
+      className="fric space-x-1 height-8 font-semibold text-sm"
     >
       {
         columns.map((c: IResizableColumn, index: number) =>

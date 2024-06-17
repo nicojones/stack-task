@@ -49,7 +49,6 @@ export default function Page (): JSX.Element {
     <form
       action={formAction}
       onSubmit={handleFormSubmit}
-      className="w-screen grid place-content-center place-items-center min-h-screen"
     >
       <VerifyCredentialsForm state={state} />
     </form>
