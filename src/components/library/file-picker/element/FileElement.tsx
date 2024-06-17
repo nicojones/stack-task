@@ -117,7 +117,7 @@ export const FileElement = ({ path = [], resource, level }: FileElementProps): J
           hasColumn("indexed") &&
           <div
             style={{ width: `${widths[1]}%` }}
-            title={moment(resource.created_at).fromNow(false)}
+            title={moment(resource.indexed_at).fromNow(false)}
             className={cn({ "cursor-help": !!resource.indexed_at })}
           >
             {
