@@ -9,7 +9,7 @@ interface FileSkeletonProps {
 
 export const FileSkeleton = ({ level }: FileSkeletonProps): JSX.Element => {
   const { widths, columns } = useResizableContext();
-  console.log(widths);
+
   return (
     <li className="flex items-center space-x-5 cursor-progress">
       <div
