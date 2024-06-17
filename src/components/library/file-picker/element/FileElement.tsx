@@ -134,13 +134,13 @@ export const FileElement = ({ path = [], resource, level }: FileElementProps): J
         }
         {
           hasColumn("createdAt") &&
-          <div
+          <small
             style={{ width: `${widths[2]}%` }}
             className="cursor-help"
             title={moment(resource.created_at).fromNow(false)}
           >
             {moment(resource.created_at).format(DATE_FORMATS.mdhm)}
-          </div>
+          </small>
         }
         {
           hasColumn("actions") &&
