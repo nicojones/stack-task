@@ -26,7 +26,7 @@ export const KnowledgeBaseItem = ({ knowledgeBaseId, path }: KnowledgeBaseItemPr
     syncKnowledgeBase(api, knowledgeBaseId, orgId);
   }, [api, knowledgeBaseId, orgId]);
 
-  const { data, isLoading } = useRetryQuery<IConnectionResourceElement[]>({
+  const { data: _, isLoading } = useRetryQuery<IConnectionResourceElement[]>({
     ...queryOptions({ resourcePath: "/" }),
     retryIfConditionMetFn: (condition: IConnectionResourceElement[]) => {
       console.log("CONDITION", condition, condition.length === 0);

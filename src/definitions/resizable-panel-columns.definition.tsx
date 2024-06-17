@@ -5,6 +5,7 @@ import { FPE_COLUMN_SIZE } from "./file-element-column-sizes.definition";
 
 const RESIZABLE_HANDLE: IResizableHandleSettings = {
   type: "handle",
+  id: "",
   props: {
     withHandle: true,
     className: "-translate-x-2",
