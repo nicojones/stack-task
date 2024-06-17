@@ -1,5 +1,6 @@
 "use client";
 
+import { InfoCircledIcon } from "@radix-ui/react-icons";
 import { useRouter } from "next/navigation";
 import { useCallback, useState } from "react";
 
@@ -13,7 +14,6 @@ import { FilePickerCard } from "./FilePickerCard";
 import { FilePickerFiles } from "./FilePickerFiles";
 import { FilePickerHeaderActions } from "./FilePickerHeaderActions";
 import { FilePickerKbCreator } from "./FilePickerKBCreator";
-import { InfoCircledIcon } from "@radix-ui/react-icons";
 
 export const FileExplorerPage = (): JSX.Element => {
   const { api, connectionId } = useAuthContext();

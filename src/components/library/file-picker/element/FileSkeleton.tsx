@@ -11,9 +11,9 @@ export const FileSkeleton = ({ level }: FileSkeletonProps): JSX.Element => {
   const { widths, columns } = useResizableContext();
   console.log(widths);
   return (
-    <li className="flex items-center space-x-4 cursor-progress">
+    <li className="flex items-center space-x-5 cursor-progress">
       <div
-        className="fric space-x-2 py-1"
+        className="fric space-x-3 py-1"
         style={{ width: `${widths[0]}%`, ...childResourceIndent(level) }}
       >
         <Skeleton className="size-5" />
