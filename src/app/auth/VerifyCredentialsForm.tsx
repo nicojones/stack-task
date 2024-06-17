@@ -19,7 +19,7 @@ export const VerifyCredentialsForm = ({ state }: VerifyCredentialsFormProps): JS
       <Card className={cn("w-[25rem] mx-auto", loadingMask(pending))}>
         <CardHeader>
           <CardTitle>Login required</CardTitle>
-          <CardDescription>Please enter your password to authorize continue</CardDescription>
+          <CardDescription>Please enter your password to continue</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="grid w-full items-center gap-4">
