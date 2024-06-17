@@ -17,12 +17,18 @@ export const EndSession = (): JSX.Element => {
     redirect("/auth");
   };
 
+  const isAuthenticated = cookies().get(COOKIE_KEY.AUTH_TOKEN);
+
   return (
-    <form
-      action={destroySession}
-      className="fixed right-4 top-4 !m-0"
-    >
-      <Button type="submit" variant="ghost">Log out</Button>
-    </form>
+    isAuthenticated
+      ? (
+        <form
+          action={destroySession}
+          className="fixed right-4 top-4 !m-0"
+        >
+          <Button type="submit" variant="ghost">Log out</Button>
+        </form>
+      )
+      : (<></>)
   );
 };

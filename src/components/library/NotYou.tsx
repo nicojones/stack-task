@@ -16,7 +16,7 @@ export const NotYou = ({ label }: NotYouProps): JSX.Element => {
   };
 
   return (
-    <small>
+    <small className="ml-auto text-slate-500 text-xs">
       <span>Not you?</span>
       {" "}
       <span className="is-link" onClick={handleChangeEmailClick}>{label}</span>

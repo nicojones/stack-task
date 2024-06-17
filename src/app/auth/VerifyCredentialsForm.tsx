@@ -48,7 +48,7 @@ export const VerifyCredentialsForm = ({ state }: VerifyCredentialsFormProps): JS
           </div>
         </CardContent>
         <CardFooter className="flex justify-between">
-          <Button type="submit">Log In</Button>
+          <Button type="submit" className="w-full" >Log In</Button>
         </CardFooter>
       </Card>
     </>
