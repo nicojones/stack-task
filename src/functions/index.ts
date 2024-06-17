@@ -4,6 +4,7 @@ export * from "./loading-mask.function";
 export * from "./child-resource-indent.function";
 export * from "./delay.function";
 export * from "./copy-to-clipboard.function";
+export * from "./check-authorization.function";
 
 // ~~ FOLDERS
 export * from "./array";
