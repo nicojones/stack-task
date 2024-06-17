@@ -48,10 +48,10 @@ export const KnowledgeBaseItem = ({ knowledgeBaseId, path }: KnowledgeBaseItemPr
 
           </span>
         }
-        cardHeader={
+        footer={
           <span className="fric">
             <CopyToClipboard
-              text={<>ID: &nbsp; <kbd className="text-sm">{knowledgeBaseId}</kbd></>}
+              text={<span className="text-slate-400 text-xs">ID: &nbsp; <kbd>{knowledgeBaseId}</kbd></span>}
               copyValue={knowledgeBaseId}
             />
           </span>

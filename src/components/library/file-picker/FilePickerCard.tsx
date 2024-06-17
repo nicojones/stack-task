@@ -2,7 +2,7 @@
 
 import { Cross1Icon } from "@radix-ui/react-icons";
 
-import { Button, Card, CardContent, CardHeader } from "@/components/ui";
+import { Button, Card, CardContent, CardFooter, CardHeader } from "@/components/ui";
 import { loadingMask } from "@/functions";
 import { cn } from "@/lib/utils";
 import { ComponentChildren } from "@/types";
@@ -12,6 +12,7 @@ interface FilePickerCardProps {
   description: ComponentChildren;
   cardHeader?: ComponentChildren;
   children: ComponentChildren;
+  footer?: ComponentChildren;
 
   /**
    * Set to `true` if the card is in a loading, non-interactive state
@@ -31,6 +32,7 @@ export const FilePickerCard = ({
   cardHeader,
   onClose,
   loading,
+  footer,
 }: FilePickerCardProps): JSX.Element => {
   return (
     <div className="flex flex-col space-y-6">
@@ -40,7 +42,7 @@ export const FilePickerCard = ({
       </div>
       <Card className={cn(
         "h-[calc(100vh-4rem] w-full relative",
-        { "pt-8": !cardHeader },
+        { "pt-10": !cardHeader },
         loadingMask(loading, false),
       )}
       >
@@ -64,10 +66,12 @@ export const FilePickerCard = ({
         <CardContent>
           {children}
         </CardContent>
-        {/* <CardFooter className="flex justify-between">
-          <Button variant="outline">Cancel</Button>
-          <Button>Deploy</Button>
-          </CardFooter> */}
+        {
+          footer &&
+          <CardFooter className="flex justify-between">
+            {footer}
+          </CardFooter>
+        }
       </Card>
     </div>
   );

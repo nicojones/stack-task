@@ -18,7 +18,7 @@ export const FilePickerFiles = ({ children }: FilePickerFilesProps): JSX.Element
       {
         children &&
         <div className="fric justify-between text-slate-700">
-          <div className="fric space-x-2">
+          <div className="fric space-x-2 justify-between w-full">
             {children({ allSelected, onToggle: toggleAll })}
           </div>
         </div>

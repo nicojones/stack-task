@@ -13,6 +13,7 @@ import { FilePickerCard } from "./FilePickerCard";
 import { FilePickerFiles } from "./FilePickerFiles";
 import { FilePickerHeaderActions } from "./FilePickerHeaderActions";
 import { FilePickerKbCreator } from "./FilePickerKBCreator";
+import { InfoCircledIcon } from "@radix-ui/react-icons";
 
 export const FileExplorerPage = (): JSX.Element => {
   const { api, connectionId } = useAuthContext();
@@ -37,6 +38,12 @@ export const FileExplorerPage = (): JSX.Element => {
           <FilePickerCard
             header="File System"
             description="Select the files you would like to add to your Stack AI workflow's Knowledge Base"
+            footer={(
+              <small className="mr-auto text-slate-400 fric space-x-2">
+                <InfoCircledIcon className="size-3" />
+                <span>We recommend selecting as few items as needed</span>
+              </small>
+            )}
           >
             <FilePickerKbCreator
               onCreateKb={handleAfterKnowledgeBaseCreate}
