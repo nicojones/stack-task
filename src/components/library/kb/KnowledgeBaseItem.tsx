@@ -8,9 +8,7 @@ import { FilePickerCard, FilePickerFiles } from "@/components/library/file-picke
 import { Progress } from "@/components/ui";
 import { ResizableWrapper, useAuthContext, useFilesContext } from "@/context";
 import { RESIZABLE_PANEL_COLUMNS_KB } from "@/definitions";
-import { loadingMask } from "@/functions";
 import { useRetryQuery } from "@/hooks";
-import { cn } from "@/lib/utils";
 import { syncKnowledgeBase } from "@/resources";
 import { IConnectionResourceElement } from "@/types";
 
