@@ -16,10 +16,7 @@ export const KnowledgeBasePage = ({ knowledgeBaseId }: KnowledgeBasePageProps): 
     <FilesWrapper
       key={knowledgeBaseId}
       queryOptions={
-        (data: IResourceAndPath) => {
-          console.log("DATA?", data);
-          return knowledgeBaseResourceChildrenQuery(api, knowledgeBaseId, data.resourcePath);
-        }
+        (data: IResourceAndPath) => knowledgeBaseResourceChildrenQuery(api, knowledgeBaseId, data.resourcePath)
       }
     >
       <KnowledgeBaseItem knowledgeBaseId={knowledgeBaseId} path={[]} />,

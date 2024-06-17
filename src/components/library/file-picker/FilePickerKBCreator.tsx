@@ -1,6 +1,6 @@
 "use client";
 
-import { Dispatch, SetStateAction, useCallback, useLayoutEffect } from "react";
+import { Dispatch, SetStateAction, useCallback, useEffect, useLayoutEffect } from "react";
 
 import { useAuthContext, useFilesContext } from "@/context";
 import { createKnowledgeBaseResource } from "@/resources";
@@ -12,12 +12,14 @@ interface FilePickerKbCreatorProps {
   onCreateKb: (knowledgeBaseId: string) => any;
   children: JSX.Element;
   setLoading: Dispatch<SetStateAction<boolean>>;
+  loading: boolean;
 }
 
 export const FilePickerKbCreator = ({
   onCreateKb,
   children,
   setLoading,
+  loading,
 }: FilePickerKbCreatorProps): JSX.Element => {
   const { api, connectionId } = useAuthContext();
   const { selectedResources, toggleAll } = useFilesContext([]);
@@ -37,8 +39,13 @@ export const FilePickerKbCreator = ({
     pickedFilesToast(
       selectedResources.length,
       handleCreateKnowledgeBase,
+      !loading,
     );
-  }, [selectedResources, handleCreateKnowledgeBase]);
+  }, [selectedResources, handleCreateKnowledgeBase, loading]);
+
+  useEffect(() => {
+    return () => pickedFilesToast(0, () => null, false);
+  }, []);
 
   return children;
 };

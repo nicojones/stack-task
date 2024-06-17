@@ -4,8 +4,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { ComponentChildren } from "@/types";
 
 interface FilePickerCardProps {
-  header: string;
-  description: string;
+  header: ComponentChildren;
+  description: ComponentChildren;
   children: ComponentChildren;
 }
 

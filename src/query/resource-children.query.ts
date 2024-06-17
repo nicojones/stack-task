@@ -18,7 +18,6 @@ export const resourceChildrenQuery = (
       .then(r => {
         const data = r.data;
         data.sort(resourceFileNameSorter("asc"));
-        console.log(data);
         return data;
       })
       .catch(error => {

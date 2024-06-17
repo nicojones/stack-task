@@ -3,7 +3,8 @@
 import { useRouter } from "next/navigation";
 import { useCallback, useState } from "react";
 
-import { FilesWrapper, useAuthContext } from "@/context";
+import { FilesWrapper, ResizableWrapper, useAuthContext } from "@/context";
+import { RESIZABLE_PANEL_COLUMNS_MAIN } from "@/definitions";
 import { loadingMask } from "@/functions";
 import { cn } from "@/lib/utils";
 import { resourceChildrenQuery } from "@/query";
@@ -34,16 +35,21 @@ export const FileExplorerPage = (): JSX.Element => {
           queryOptions={({ resourceId }) => resourceChildrenQuery(api, connectionId, resourceId)}
         >
           <FilePickerCard
-            header="Files"
-            description="Index and de-index files in the Knowledge Base"
+            header="Available files"
+            description="Select the files you would like to add to your Stack AI workflow's Knowledge Base"
           >
             <FilePickerKbCreator
               onCreateKb={handleCreateKnowledgeBase}
               setLoading={setLoading}
+              loading={loading}
             >
-              <FilePickerFiles>
-                {(actions) => <FilePickerHeaderActions actions={actions} />}
-              </FilePickerFiles>
+              <ResizableWrapper
+                columns={RESIZABLE_PANEL_COLUMNS_MAIN}
+              >
+                <FilePickerFiles>
+                  {(actions) => <FilePickerHeaderActions actions={actions} />}
+                </FilePickerFiles>
+              </ResizableWrapper>
             </FilePickerKbCreator>
           </FilePickerCard>
         </FilesWrapper>

@@ -30,7 +30,6 @@ export const FileElementResources = ({
   resourcePath = "/",
   skeletons = 3,
 }: FileElementResourcesProps): JSX.Element => {
-  console.log("RESOURCE DATA", resourceId, path);
   const { queryOptions } = useFilesContext(path);
   const { data, isLoading } = useQuery(queryOptions({ resourceId, resourcePath }));
 

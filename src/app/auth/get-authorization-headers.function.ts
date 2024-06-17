@@ -40,7 +40,6 @@ export const getAuthorizationHeader = async (
         { headers: { Authorization: `Bearer ${accessToken}` } },
       );
       const connection = connectionResponse.data[0];
-      console.log("Connection: ", connectionResponse.data);
       cookies().set(COOKIE_KEY.CONNECTION_ID, connection.connection_id);
       cookies().set(COOKIE_KEY.ORG_ID, connection.org_id);
 

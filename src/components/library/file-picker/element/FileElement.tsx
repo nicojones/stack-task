@@ -11,7 +11,7 @@ import { useResizableContext } from "@/context/resizable/resizable.context";
 import { DATE_FORMATS } from "@/definitions/date-formats";
 import { childResourceIndent, resourceFileName } from "@/functions";
 import { cn } from "@/lib/utils";
-import { IConnectionResourceElement, IFilePickerIndexActions, IFilePickerSharedProps, PDefault } from "@/types";
+import { IConnectionResourceElement, IFilePickerSharedProps, PDefault } from "@/types";
 
 import { FileElementResources } from "./FileElementResources";
 
@@ -20,15 +20,10 @@ interface FileElementProps extends IFilePickerSharedProps {
    * The data pertaining to this resource
    */
   resource: IConnectionResourceElement;
-
-  /**
-   * The component that does the actions
-   */
-  actions?: (fileActions: IFilePickerIndexActions) => JSX.Element;
 }
 
-export const FileElement = ({ path = [], resource, level, actions }: FileElementProps): JSX.Element => {
-  const { layout } = useResizableContext();
+export const FileElement = ({ path = [], resource, level }: FileElementProps): JSX.Element => {
+  const { widths, hasColumn, columns } = useResizableContext();
   const {
     isSelected,
     isChecked,
@@ -65,84 +60,94 @@ export const FileElement = ({ path = [], resource, level, actions }: FileElement
 
   return (
     <>
-      <li className="fric space-x-4 select-text">
-        <div
-          className="fric space-x-2"
-          style={{ width: `${layout[0]}%`, ...childResourceIndent(level) }}
-        >
-          <Checkbox
-            checked={_selected}
-            className={cn({ "cursor-not-allowed opacity-40": _selected && !_checked })}
-            onCheckedChange={handleCheckedChange}
-          />
-          {
-            resource.inode_type === "directory"
-              ? (
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={toggleFolder}
-                  className={cn(openFolder ? "cursor-row-resize" : "cursor-ns-resize")}
-                >
-                  <Image
-                    width={24}
-                    height={24}
-                    src={
-                      openFolder
-                        ? iconFolderOpen
-                        : iconFolder
-                    }
-                    alt={"Directory Icon " + (openFolder ? "Open" : "Closed")}
-                  />
-                </Button>
-              )
-              : (
-                <>
-                  <Button variant="ghost" size="icon" disabled className="disabled:opacity-100">
+      <li className="fric select-text">
+        {
+          hasColumn("file") &&
+          <div
+            className="fric space-x-2"
+            style={{ width: `${widths[0]}%`, ...childResourceIndent(level) }}
+          >
+            <Checkbox
+              checked={_selected}
+              className={cn({ "cursor-not-allowed opacity-40": _selected && !_checked })}
+              onCheckedChange={handleCheckedChange}
+            />
+            {
+              resource.inode_type === "directory"
+                ? (
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={toggleFolder}
+                    className={cn(openFolder ? "cursor-row-resize" : "cursor-ns-resize")}
+                  >
                     <Image
                       width={24}
                       height={24}
-                      src={iconFile}
-                      alt="File Icon"
+                      src={
+                        openFolder
+                          ? iconFolderOpen
+                          : iconFolder
+                      }
+                      alt={"Directory Icon " + (openFolder ? "Open" : "Closed")}
                     />
                   </Button>
-                </>
-              )
-          }
-          <span title={`Full path: /${resource.inode_path.path}`}>{resourceName}</span>
-        </div>
-        <div
-          style={{ width: `${layout[1]}%` }}
-          title={moment(resource.created_at).fromNow(false)}
-          className={cn({ "cursor-help": !!resource.indexed_at })}
-        >
-          {
-            resource.indexed_at
-              ? (
-                <small>{moment(resource.indexed_at).format(DATE_FORMATS.mdhm)}</small>
-              )
-              : (
-                <small className="text-slate-300">(not indexed)</small>
-              )
-          }
-        </div>
-        <div
-          style={{ width: `${layout[2]}%` }}
-          className="cursor-help"
-          title={moment(resource.created_at).fromNow(false)}
-        >
-          <small>{moment(resource.created_at).format(DATE_FORMATS.mdhm)}</small>
-        </div>
-
-        <div
-          style={{ width: `${layout[3]}%` }}
-          className="cursor-help"
-          hidden={!actions}
-        >
-          {
-            actions?.({ resource })
-          }
-        </div>
+                )
+                : (
+                  <>
+                    <Button variant="ghost" size="icon" disabled className="disabled:opacity-100">
+                      <Image
+                        width={24}
+                        height={24}
+                        src={iconFile}
+                        alt="File Icon"
+                      />
+                    </Button>
+                  </>
+                )
+            }
+            <span title={`Full path: /${resource.inode_path.path}`}>{resourceName}</span>
+          </div>
+        }
+        {
+          hasColumn("indexed") &&
+          <div
+            style={{ width: `${widths[1]}%` }}
+            title={moment(resource.created_at).fromNow(false)}
+            className={cn({ "cursor-help": !!resource.indexed_at })}
+          >
+            {
+              resource.indexed_at
+                ? (
+                  <small>{moment(resource.indexed_at).format(DATE_FORMATS.mdhm)}</small>
+                )
+                : (
+                  <small className="text-slate-300">(not indexed)</small>
+                )
+            }
+          </div>
+        }
+        {
+          hasColumn("createdAt") &&
+          <div
+            style={{ width: `${widths[2]}%` }}
+            className="cursor-help"
+            title={moment(resource.created_at).fromNow(false)}
+          >
+            <small>{moment(resource.created_at).format(DATE_FORMATS.mdhm)}</small>
+          </div>
+        }
+        {
+          hasColumn("actions") &&
+          <div
+            style={{ width: `${widths[3]}%` }}
+            className="cursor-help"
+          >
+            {
+              columns.find(c => c.id === "actions")?.actions?.({ resource, knowledgeBaseId: "TBD" })
+            }
+          </div>
+        }
       </li>
 
       {

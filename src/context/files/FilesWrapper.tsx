@@ -1,7 +1,7 @@
 "use client";
 
 import { UseQueryOptions } from "@tanstack/react-query";
-import { useCallback, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { arrayIntersection, lastElementIfArray } from "@/functions";
 import { ComponentChildren, IConnectionResourceElement, IFilesContext, IResourceAncestry, IResourceAndPath } from "@/types";
@@ -115,6 +115,13 @@ export const FilesWrapper = ({ children, queryOptions }: FilesWrapperProps): JSX
     // Note: the other callbacks have the same dependency array so can be ommited
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }), [resources, queryOptions]);
+
+  useEffect(() => {
+    return () => {
+      // Unselect all resources on unmount
+      setResources([]);
+    };
+  }, []);
 
   return (
     <FilesContext.Provider value={context}>

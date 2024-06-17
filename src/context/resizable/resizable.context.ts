@@ -5,8 +5,10 @@ import { createContext, useContext } from "react";
 import { IResizableContext } from "@/types";
 
 export const ResizableContext = createContext<IResizableContext>({
-  layout: [],
-  setLayout: () => null,
+  widths: [],
+  setWidths: () => null,
+  columns: [],
+  hasColumn: () => false,
 
   _insideContext_: false,
 });

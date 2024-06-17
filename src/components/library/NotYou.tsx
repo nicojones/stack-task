@@ -1,5 +1,7 @@
 "use client";
 
+import { toast } from "sonner";
+
 interface NotYouProps {
   label: string;
 }
@@ -10,7 +12,7 @@ interface NotYouProps {
  */
 export const NotYou = ({ label }: NotYouProps): JSX.Element => {
   const handleChangeEmailClick = (): void => {
-    alert("Not implemented. Please see NotYou.tsx for more information");
+    toast("Here's an easter egg 🐇. This should do something, but it had no priority for the task!");
   };
 
   return (

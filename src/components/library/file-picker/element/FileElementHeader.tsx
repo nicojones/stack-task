@@ -1,13 +1,13 @@
 
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "@/components/ui";
 import { useResizableContext } from "@/context/resizable/resizable.context";
-import { FPE_COLUMN_SIZE } from "@/definitions";
+import { IResizableColumn } from "@/types";
 
 export const FileElementHeader = (): JSX.Element => {
-  const { setLayout } = useResizableContext();
+  const { setWidths, columns } = useResizableContext();
 
   const handleLayoutChange = (layout: number[]): void => {
-    setLayout(layout);
+    setWidths(layout);
   };
 
   return (
@@ -16,45 +16,17 @@ export const FileElementHeader = (): JSX.Element => {
       onLayout={handleLayoutChange}
       className="fric space-x-1 height-8 font-bold"
     >
-      <ResizablePanel
-        defaultSize={FPE_COLUMN_SIZE.file}
-        minSize={FPE_COLUMN_SIZE.file / 2}
-      >
-        Name
-      </ResizablePanel>
-      <ResizableHandle
-        withHandle
-        className="-translate-x-2"
-      />
-      <ResizablePanel
-        defaultSize={FPE_COLUMN_SIZE.indexed}
-        maxSize={FPE_COLUMN_SIZE.createdAt * 2}
-        minSize={FPE_COLUMN_SIZE.createdAt / 2}
-      >
-        Indexed
-      </ResizablePanel>
-      <ResizableHandle
-        withHandle
-        className="-translate-x-2"
-      />
-      <ResizablePanel
-        defaultSize={FPE_COLUMN_SIZE.createdAt}
-        maxSize={FPE_COLUMN_SIZE.createdAt * 2}
-        minSize={FPE_COLUMN_SIZE.createdAt / 2}
-      >
-        Created At
-      </ResizablePanel>
-      <ResizableHandle
-        withHandle
-        className="-translate-x-2"
-      />
-      <ResizablePanel
-        defaultSize={FPE_COLUMN_SIZE.actions}
-        maxSize={FPE_COLUMN_SIZE.actions}
-        minSize={FPE_COLUMN_SIZE.actions / 2}
-      >
-        Actions
-      </ResizablePanel>
+      {
+        columns.map((c: IResizableColumn, index: number) =>
+          c.type === "panel"
+            ? (
+              <ResizablePanel key={index} {...c.props} />
+            )
+            : (
+              <ResizableHandle key={index} {...c.props} />
+            ),
+        )
+      }
     </ResizablePanelGroup>
   );
 };

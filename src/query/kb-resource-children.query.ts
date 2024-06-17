@@ -17,19 +17,21 @@ export const knowledgeBaseResourceChildrenQuery = (
     )
       .then(r => {
         const data = r.data;
-        console.log(data);
         data.sort(resourceFileNameSorter("asc"));
 
-        data.forEach(i => {
-          // @ts-expect-error invalid property
-          i.full_path = i.inode_path.path;
-        });
+        // To ensure that requests are retried while the KB is initalizing, we error
+        // any request without any data
+        if (!data.length) {
+          throw new Error(undefined);
+        }
         return data;
       })
       .catch(error => {
-        toast(String(error), {
-          description: "Error ocurred while fetching resources",
-        });
+        if (error) {
+          toast(String(error), {
+            description: "Error ocurred while fetching resources",
+          });
+        }
         throw new Error(error);
       }),
 });

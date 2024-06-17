@@ -1,7 +1,6 @@
 "use client";
 
 import { useFilesContext } from "@/context";
-import { ResizableWrapper } from "@/context/resizable/ResizableWrapper";
 import { IFilePickerHeaderActions } from "@/types";
 
 import { FileElementHeader, FileElementResources } from "./element";
@@ -24,16 +23,14 @@ export const FilePickerFiles = ({ children }: FilePickerFilesProps): JSX.Element
           </div>
         </div>
       }
-      <ResizableWrapper>
-        <ul
-          className="space-y-2"
-        >
-          <li>
-            <FileElementHeader />
-          </li>
-          <FileElementResources level={0} />
-        </ul>
-      </ResizableWrapper>
+      <ul
+        className="space-y-2"
+      >
+        <li>
+          <FileElementHeader />
+        </li>
+        <FileElementResources level={0} />
+      </ul>
     </div>
   );
 };
